@@ -2,3 +2,9 @@
 .github/
 images/example.gif
 images/icon.svg
+commandspec/
+tests/
+node_modules/
+package-lock.json
+Makefile
+CLAUDE.md

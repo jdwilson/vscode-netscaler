@@ -1,0 +1,68 @@
+# SYNTAX TEST "text.netscaler" "regression tests for the grammar audit fixes"
+
+# end-of-line tokens must still be scoped
+add lb vserver
+#   ^^ entity.name.class.netscaler
+#      ^^^^^^^ entity.name.function.netscaler.lb
+set ssl parameter -defaultProfile ENABLED
+#                 ^^^^^^^^^^^^^^^ support.function.netscaler
+#                                 ^^^^^^^ constant.language.netscaler
+add ns ip 10.20.30.40 255.255.255.0
+#         ^^^^^^^^^^^ constant.numeric.netscaler
+#                     ^^^^^^^^^^^^^ constant.numeric.netscaler
+bind vlan 100
+#         ^^^ constant.numeric.netscaler
+
+# consecutive bare numbers must each be scoped
+set lb monitor m1 HTTP -interval 5 3
+#                                ^ constant.numeric.netscaler
+#                                  ^ constant.numeric.netscaler
+
+# strings closing at end of line
+add lb vserver v1 -comment "primary vip"
+#                          ^^^^^^^^^^^^^ string.quoted.double.netscaler
+add responder action ra1 respondwith q{body}
+#                                    ^^^^^^^ string.quoted.double.netscaler
+
+# 14.1 verbs new to the grammar
+force HA failover
+# <- keyword.other.control.netscaler
+#     ^^ entity.name.class.netscaler
+#        ^^^^^^^^ entity.name.function.netscaler.HA
+clear ns config
+# <- keyword.other.control.netscaler
+#     ^^ entity.name.class.netscaler
+#        ^^^^^^ entity.name.function.netscaler.ns
+sync HA files
+# <- keyword.other.control.netscaler
+import ssl certKey ck1
+# <- keyword.other.control.netscaler
+#      ^^^ entity.name.class.netscaler
+#          ^^^^^^^ entity.name.function.netscaler.ssl
+
+# areas that were missing from the declaration list
+add bot profile bp1
+#   ^^^ entity.name.class.netscaler
+#       ^^^^^^^ entity.name.function.netscaler.bot
+add quic profile qp1
+#   ^^^^ entity.name.class.netscaler
+#        ^^^^^^^ entity.name.function.netscaler.quic
+show api spec
+#    ^^^ entity.name.class.netscaler
+#        ^^^^ entity.name.function.netscaler.api
+set adm parameter
+#   ^^^ entity.name.class.netscaler
+#       ^^^^^^^^^ entity.name.function.netscaler.adm
+
+# service types on service/servicegroup lines, not just vservers
+add service svc1 10.20.30.40 HTTP 80
+#                            ^^^^ entity.name.function.netscaler
+add servicegroup sg1 SSL_TCP
+#                    ^^^^^^^ entity.name.function.netscaler
+add lb vserver v1 HTTP_QUIC 10.20.30.40 443
+#                 ^^^^^^^^^ entity.name.function.netscaler
+
+# operators no longer need adjacent word characters
+probe x a == b
+#         ^^ keyword.operator.netscaler
+

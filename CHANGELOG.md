@@ -1,3 +1,21 @@
+## v1.1.0
+
+### Enhancements
+* Updated syntax coverage to NetScaler 14.1: all CLI verbs (72), all command areas (168), and per-area entity keywords generated against the 14.1 command reference, including new areas such as `api`, `quic`, `quicBridge`, `bot`, `cloud`, `adm`, `analytics`, and `metrics`
+* Updated service type keywords to the 14.1 set (e.g. `HTTP_QUIC`, `QUIC_BRIDGE`, `MONGO_TLS`, `LOGSTREAM_SSL`, `ADNS_DOT`) and extended them to `service`/`servicegroup` commands, not just vservers
+* Added a grammar test suite (`make test`) with a generated corpus covering every 14.1 command
+
+### Fixes
+* Tokens at the end of a line (entities, parameters, numbers, IPs, closing string delimiters) are now highlighted; previously most patterns required trailing whitespace
+* Command areas no longer match on verb suffixes mid-word (e.g. `transform policy` was mis-scoped via the `rm` in `transform`)
+* Consecutive bare numbers are now all highlighted instead of every other one
+* Parameter value keywords (e.g. `info`) no longer override entity names such as `show ns info`
+* Removed an empty alternative in the command area pattern that could match empty strings
+* Operators (`==`, `!=`, `&&`, `||`) now highlight when surrounded by spaces
+
+### Changes
+* Removed the `.txt` file association; `.conf` and `ns.conf` remain (select the NetScaler language manually for text files)
+
 ## v1.0.0
 
 ### Enhancements
